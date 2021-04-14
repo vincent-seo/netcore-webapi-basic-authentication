@@ -8,7 +8,7 @@ namespace WebAPI.Security.SymetricEncryption
     {
         public (string Key, string IVBase64) InitSymmetricEncryption()
         {
-            var key = GetEncodedRandomString(32); // 256
+            var key = "anyteksys password"; // 256
             Aes cipher = CreateCipher(key);
             var IVBase64 = Convert.ToBase64String(cipher.IV);
             return (key, IVBase64);

@@ -17,24 +17,37 @@ namespace WebAPI
     public class ApiKeyAuthAttribute : Attribute, IAsyncActionFilter
     {
         private const string ApiKeyHeaderName = "ApiKey";
-
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            if (!context.HttpContext.Request.Headers.TryGetValue(ApiKeyHeaderName, out var potentialApiKey))
+            // if the header not contain any key
+            if (!context.HttpContext.Request.Headers.TryGetValue(ApiKeyHeaderName, out var keyInHeader))
             {
                 context.Result = new UnauthorizedResult();
                 return;
             }
 
-            var apiKey = "abc";
+            var key = "abc";
+            /*
+                if user email address : xunaoo@gmail.com
+                if user password : sdinjklq24498asdljkjhff9823rhalajd
 
-            if (!apiKey.Equals(potentialApiKey))
+                (user email : user password) = eHVuYW9vQGdtYWlsLmNvbTpzZGluamtscTI0NDk4YXNkbGpramhmZjk4MjNyaGFsYWpk
+
+                when you provide the token = SymmetricAuth.encrypt(eHVuYW9vQGdtYWlsLmNvbTpzZGluamtscTI0NDk4YXNkbGpramhmZjk4MjNyaGFsYWpk);
+                when you verify the token = SymmetricAuth.decroty(asd097fuaoisdhff08asd90fa0s9duff0asduf890as8df098asd09f8asd09f8a0s9df8);4
+
+            */
+
+            // 1 you have to decrypt keyInheader
+            // 2 compare the key is meatching with DB
+            // 3 if the key is matching, retrive the user data and store in the property.
+
+            // if the keyInHeader not correct!
+            if (!key.Equals(keyInHeader))
             {
                 context.Result = new UnauthorizedResult();
                 return;
             }
-
-            ASymmetricTest();
 
             await next();
         }
